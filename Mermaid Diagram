@@ -1,0 +1,23 @@
+# DDoS Attack Sequence Diagram
+
+The diagram below shows how a typical Distributed Denial of Service (DDoS) attack happens against a company’s web server. It walks through the steps taken by the attacker and their botnet of infected machines, and how the firewall and server respond during the attack. 
+
+```mermaid
+sequenceDiagram
+    participant Attacker
+    participant BotNet
+    participant Firewall
+    participant WebServer
+
+    Attacker->>BotNet: Command bots to start the main attack
+
+    loop Flood Request
+        BotNet->>Firewall: Massive HTTP requests
+        Firewall->>WebServer: Forward requests
+    end
+
+    Firewall->>Firewall: Detects the traffic anomaly
+    Firewall-->>BotNet: Blocks suspicious IPs
+    Firewall-->>WebServer: Drops excess requests
+    WebServer-->>Firewall: Status -Gets Overloaded
+    Firewall-->>Attacker: Alert - DDoS attack gets detected
